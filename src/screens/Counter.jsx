@@ -1,3 +1,6 @@
+import { SafeAreaView, Text, StyleSheet } from 'react-native';
+import MyButton from "../components/MyButton";
+
 const Counter = () => {
   const [contador, setContador] = useState(0);
   const onPressButton = () => {
