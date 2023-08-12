@@ -1,41 +1,48 @@
 import axios from 'axios';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import MyButton from '../components/MyButton';
+import { SafeAreaView, StyleSheet, View } from 'react-native';
+import Card from '../components/Card';
+import Header from '../components/Header';
+import Lists from '../components/Lists';
 
 const CatFacts = () => {
   const [catFact, setCatFact] = useState();
-  const [moreCatFact, setMoreCatFact] = useState([]);
-
+  // const [moreCatFact, setMoreCatFact] = useState([]);
+  const array = [
+    { name: 'Fulano', idade: 20 },
+    { name: 'Beltrano', idade: 22 },
+    { name: 'Ciclano', idade: 19 },
+    { name: 'Jhon Doe', idade: 30 },
+  ];
   const fetchCatFact = async () => {
     try {
       const { data } = await axios.get('https://catfact.ninja/fact');
-      setCatFact(data.fact);
+      setCatFact(data);
     } catch (err) {
       console.error(err);
     }
   };
 
-  const fetchMoreCatFact = async () => {
-    try {
-      const cats = [];
-      for (let i = 0; i < 2; i++) {
-        const { data } = await axios.get('https://catfact.ninja/fact');
-        cats.push(data.fact);
-        console.log(i, data.fact);
-      }
-      setMoreCatFact(cats);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  // const fetchMoreCatFact = async () => {
+  //   try {
+  //     const cats = [];
+  //     for (let i = 0; i < 2; i++) {
+  //       const { data } = await axios.get('https://catfact.ninja/fact');
+  //       cats.push(data.fact);
+  //       console.log(i, data.fact);
+  //     }
+  //     setMoreCatFact(cats);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView>
       <StatusBar />
-      <View>
-        <Text style={styles.text}>Cats facts</Text>
+      <Header title="Header" />
+      {/* <Text style={styles.text}>Cats facts</Text>
         <MyButton title="Fato" onPress={fetchCatFact} />
         <Text style={styles.italic}> {catFact ? catFact : ''}</Text>
       </View>
@@ -49,7 +56,10 @@ const CatFacts = () => {
               </Text>
             );
           })}
-        </View>
+        </View> */}
+      <View style={styles.container}>
+        <Card onPress={fetchCatFact} background={'#af7cc4'} data={catFact} />
+        <Lists data={array} />
       </View>
     </SafeAreaView>
   );
@@ -62,8 +72,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f5e8fa',
-    height: '100%',
+    paddingTop: 300,
+    height: 500,
+    gap: 20,
   },
   text: {
     fontSize: 32,
